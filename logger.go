@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"sync"
+	"time"
 )
 
 type Logger struct {
@@ -72,6 +73,20 @@ func New() *Logger {
 		Hooks:     make(LevelHooks),
 		Level:     InfoLevel,
 	}
+}
+
+// EnhancedStd chances the default logger in two ways:
+//    - use timeformat time.RFC3339Nano
+//    - add a hook to all levels that logs filename and lineno with tag "src"
+func EnhancedStd() {
+	l := &Logger{
+		Out:       os.Stderr,
+		Formatter: &TextFormatter{TimestampFormat: time.RFC3339Nano},
+		Hooks:     make(LevelHooks),
+		Level:     InfoLevel,
+	}
+	l.Hooks.Add(*NewFilenameAndLineHook("src"))
+	std = l
 }
 
 func (logger *Logger) newEntry() *Entry {

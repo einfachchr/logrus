@@ -46,6 +46,12 @@ time="2015-03-26T01:27:38-04:00" level=fatal msg="The ice breaks!" err=&{0x20822
 exit status 1
 ```
 
+## Changed in this repository
+
+* Added a hook FilenameAndLineHook (filenameandline.go) that logs the filename and the lineno to a field (WithFields(...))
+* Introduced a new func EnhancedStd() that changes the default logger to use timeformat time.RFC3339Nano and adds the new hook.
+
+
 #### Example
 
 The simplest way to use Logrus is simply the package-level exported logger:
@@ -230,6 +236,7 @@ Note: Syslog hook also support connecting to local syslog (Ex. "/dev/log" or "/v
 | [Sumorus](https://github.com/doublefree/sumorus) | Hook for logging to [SumoLogic](https://www.sumologic.com/)|
 | [Logstash](https://github.com/bshuster-repo/logrus-logstash-hook) | Hook for logging to [Logstash](https://www.elastic.co/products/logstash) |
 | [Logmatic.io](https://github.com/logmatic/logmatic-go) | Hook for logging to [Logmatic.io](http://logmatic.io/) |
+| FilenameAndLine | Hook for adding a special field indicating the filename and line number (see examples/hooks/filenameandline/example.go) |
 
 
 #### Level logging
