@@ -75,15 +75,26 @@ func New() *Logger {
 	}
 }
 
+func EnhancedStd() {
+	EnhancedStdLvl("info")
+}
+
 // EnhancedStd chances the default logger in two ways:
 //    - use timeformat time.RFC3339Nano
 //    - add a hook to all levels that logs filename and lineno with tag "src"
-func EnhancedStd() {
+//
+// Accept loglevel as parameter.
+func EnhancedStdLvl(lvl string) {
+	level, err := ParseLevel(lvl)
+	if err != nil {
+		level = InfoLevel
+	}
+
 	l := &Logger{
 		Out:       os.Stderr,
 		Formatter: &TextFormatter{TimestampFormat: time.RFC3339Nano},
 		Hooks:     make(LevelHooks),
-		Level:     InfoLevel,
+		Level:     level,
 	}
 	l.Hooks.Add(*NewFilenameAndLineHook("src"))
 	std = l
